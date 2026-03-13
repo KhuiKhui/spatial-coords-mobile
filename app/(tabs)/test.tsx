@@ -1524,8 +1524,8 @@ export default function Main() {
     // Headlights
     const lightMat = new THREE.MeshBasicMaterial({
       color: 0xfff9c4,
-      emissive: 0xffff00,
-      emissiveIntensity: 1,
+      // emissive: 0xffff00,
+      // emissiveIntensity: 1,
     });
     const lightGeo = new THREE.PlaneGeometry(
       TILE_SIZE * 0.105,
@@ -1882,7 +1882,7 @@ export default function Main() {
       const textWrapper = new THREE.Object3D();
       textWrapper.add(textMesh);
       group.add(textWrapper);
-      textWrapper.onBehtmlForeRender = function (renderer, scene, camera) {
+      textWrapper.onBeforeRender = function (renderer, scene, camera) {
         this.quaternion.copy(camera.quaternion);
       };
     }
@@ -3959,16 +3959,16 @@ export default function Main() {
                       cy="50%"
                       r="50%"
                     >
-                      <stop offset="0%" stop-color="#ff8080" />
-                      <stop offset="100%" stop-color="#c00000" />
+                      <stop offset="0%" stopColor="#ff8080" />
+                      <stop offset="100%" stopColor="#c00000" />
                     </radialGradient>
                   </defs>
                   <path
                     d="M4 12 L16 4 L16 9 L21 9 L21 15 L16 15 L16 20 Z"
                     fill="url(#legendPlayerGrad)"
                     stroke="#006400"
-                    stroke-width="2"
-                    stroke-linejoin="round"
+                    strokeWidth="2"
+                    strokeLinejoin="round"
                   />
                 </svg>
                 <span
