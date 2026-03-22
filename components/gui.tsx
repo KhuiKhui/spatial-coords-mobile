@@ -1,0 +1,840 @@
+export default function GUI() {
+  return (
+    <div>
+      <div id="ui-container">
+        <div id="view-toggle-container">
+          <button
+            id="view-1p-btn"
+            className="view-toggle-btn active"
+            data-lang-zh="第一人称"
+            data-lang-en="1st Person"
+          >
+            第一人称
+          </button>
+          <button
+            id="view-3p-btn"
+            className="view-toggle-btn"
+            data-lang-zh="第三人称"
+            data-lang-en="3rd Person"
+          >
+            第三人称
+          </button>
+        </div>
+        <div id="third-person-controls">
+          <div className="control-group">
+            <label
+              htmlFor="zoom-slider"
+              data-lang-zh="远近"
+              data-lang-en="Zoom"
+            >
+              远近
+            </label>
+            <input
+              type="range"
+              id="zoom-slider"
+              min="1.5"
+              max="5"
+              step="0.1"
+              value="2.5"
+            />
+          </div>
+          <div className="control-group">
+            <label
+              htmlFor="angle-slider"
+              data-lang-zh="角度"
+              data-lang-en="Angle"
+            >
+              角度
+            </label>
+            <input
+              type="range"
+              id="angle-slider"
+              min="25"
+              max="85"
+              step="1"
+              value="45"
+            />
+          </div>
+          <div className="control-group">
+            <label
+              htmlFor="car-size-slider"
+              data-lang-zh="大小"
+              data-lang-en="Size"
+            >
+              大小
+            </label>
+            <input
+              type="range"
+              id="car-size-slider"
+              min="0.5"
+              max="1.6"
+              step="0.05"
+              value="1.0"
+            />
+          </div>
+        </div>
+        <div id="top-hud" className="hud">
+          <div id="waypoint-hud"></div>
+          <div id="ingame-hint" style={{ display: 'none' }}></div>
+        </div>
+        <div id="bottom-hud" className="hud">
+          <div id="big-map-prompt" className="hud-prompt"></div>
+          <div id="choice-prompt" className="hud-prompt"></div>
+        </div>
+      </div>
+      <div id="minimap-container">
+        <canvas id="minimap-canvas"></canvas>
+        <button id="minimap-orientation-btn" title="Minimap Orientation">
+          N
+        </button>
+      </div>
+      <button id="show-minimap-btn">🗺️</button>
+      <button id="settings-button">⚙️</button>
+      <div id="startup-modal" className="modal-overlay">
+        <div className="modal-content">
+          <h2
+            data-lang-zh="欢迎来到快乐驾驶"
+            data-lang-en="Welcome to Happy Drive"
+          >
+            欢迎来到快乐驾驶
+          </h2>
+          <div className="settings-group">
+            <label
+              htmlFor="initial-language-select"
+              data-lang-zh="语言 / Language"
+              data-lang-en="语言 / Language"
+            >
+              语言 / Language
+            </label>
+            <select id="initial-language-select">
+              <option value="zh">中文</option>
+              <option value="en">English</option>
+            </select>
+          </div>
+          <p
+            data-lang-zh="为了更好地称呼您，请输入您的信息："
+            data-lang-en="To get started, please enter your info:"
+          >
+            为了更好地称呼您，请输入您的信息：
+          </p>
+          <input
+            type="text"
+            id="nickname-input"
+            data-lang-placeholder-zh="请输入您的昵称"
+            data-lang-placeholder-en="Enter your nickname"
+          />
+          <select id="gender-select">
+            <option value="male" data-lang-zh="男" data-lang-en="Male">
+              男
+            </option>
+            <option value="female" data-lang-zh="女" data-lang-en="Female">
+              女
+            </option>
+            <option value="other" data-lang-zh="其他" data-lang-en="Other">
+              其他
+            </option>
+          </select>
+          <button
+            id="start-game-btn"
+            data-lang-zh="开始游戏"
+            data-lang-en="Start Game"
+          >
+            开始游戏
+          </button>
+        </div>
+      </div>
+      <div
+        id="main-menu-modal"
+        className="modal-overlay"
+        style={{ display: 'none' }}
+      >
+        <div className="modal-content">
+          <h2 id="welcome-message"></h2>
+          <button
+            id="free-mode-btn"
+            data-lang-zh="自由模式"
+            data-lang-en="Free Mode"
+          >
+            自由模式
+          </button>
+          <button
+            id="custom-mode-btn"
+            data-lang-zh="自定义模式"
+            data-lang-en="Custom Mode"
+            disabled
+          >
+            自定义模式
+          </button>
+          <button
+            id="editor-mode-btn"
+            data-lang-zh="地图编辑器"
+            data-lang-en="Map Editor"
+          >
+            地图编辑器
+          </button>
+          <div id="main-menu-info-box" className="menu-info-box"></div>
+        </div>
+      </div>
+      <div
+        id="level-complete-modal"
+        className="modal-overlay"
+        style={{ display: 'none' }}
+      >
+        <div className="modal-content">
+          <h2 id="results-title"></h2>
+          <button
+            id="main-menu-btn"
+            data-lang-zh="返回主菜单"
+            data-lang-en="Main Menu"
+          >
+            返回主菜单
+          </button>
+        </div>
+      </div>
+      <div
+        id="settings-panel"
+        className="modal-overlay"
+        style={{ display: 'none' }}
+      >
+        <div className="modal-content">
+          <h2 data-lang-zh="设置" data-lang-en="Settings">
+            设置
+          </h2>
+          <div className="settings-group">
+            <label
+              htmlFor="language-select"
+              data-lang-zh="语言"
+              data-lang-en="Language"
+            >
+              语言
+            </label>
+            <select id="language-select">
+              <option value="zh">中文</option>
+              <option value="en">English</option>
+            </select>
+          </div>
+          <div className="settings-group">
+            <label
+              htmlFor="font-size-slider"
+              data-lang-zh="字体大小"
+              data-lang-en="Font Size"
+            >
+              字体大小
+            </label>
+            <input
+              type="range"
+              id="font-size-slider"
+              min="0.8"
+              max="1.5"
+              step="0.1"
+              value="1"
+            />
+          </div>
+          <div className="settings-group">
+            <label
+              htmlFor="minimap-size-slider"
+              data-lang-zh="小地图大小"
+              data-lang-en="Minimap Size"
+            >
+              小地图大小
+            </label>
+            <input
+              type="range"
+              id="minimap-size-slider"
+              min="1"
+              max="2"
+              step="0.01"
+              value="1"
+            />
+          </div>
+          <div className="settings-group">
+            <label
+              htmlFor="helper-text-toggle"
+              data-lang-zh="辅助文字"
+              data-lang-en="Helper Text"
+            >
+              辅助文字
+            </label>
+            <select id="helper-text-toggle">
+              <option value="on" data-lang-zh="开启" data-lang-en="On">
+                开启
+              </option>
+              <option value="off" data-lang-zh="关闭" data-lang-en="Off">
+                关闭
+              </option>
+            </select>
+          </div>
+          <div className="settings-group">
+            <label
+              htmlFor="arrow-1p-toggle"
+              data-lang-zh="黄色箭头（第一人称）"
+              data-lang-en="Yellow Arrows (1st Person)"
+            >
+              黄色箭头（第一人称）
+            </label>
+            <select id="arrow-1p-toggle">
+              <option value="on" data-lang-zh="开启" data-lang-en="On">
+                开启
+              </option>
+              <option value="off" data-lang-zh="关闭" data-lang-en="Off">
+                关闭
+              </option>
+            </select>
+          </div>
+          <div className="settings-group">
+            <label
+              htmlFor="arrow-3p-toggle"
+              data-lang-zh="黄色箭头（第三人称）"
+              data-lang-en="Yellow Arrows (3rd Person)"
+            >
+              黄色箭头（第三人称）
+            </label>
+            <select id="arrow-3p-toggle">
+              <option value="on" data-lang-zh="开启" data-lang-en="On">
+                开启
+              </option>
+              <option value="off" data-lang-zh="关闭" data-lang-en="Off">
+                关闭
+              </option>
+            </select>
+          </div>
+          <div className="settings-group texture-settings-group">
+            <label data-lang-zh="纹理设置" data-lang-en="Texture Settings">
+              纹理设置
+            </label>
+            <div className="texture-input-row">
+              <label
+                htmlFor="floor-texture-input"
+                data-lang-zh="地面"
+                data-lang-en="Floor"
+              >
+                地面
+              </label>
+              <input type="file" id="floor-texture-input" accept="image/*" />
+              <span
+                className="texture-preview"
+                id="floor-texture-preview"
+              ></span>
+            </div>
+            <div className="texture-input-row">
+              <label
+                htmlFor="wall-n-texture-input"
+                data-lang-zh="北墙 (NS)"
+                data-lang-en="North Wall (NS)"
+              >
+                北墙
+              </label>
+              <input type="file" id="wall-n-texture-input" accept="image/*" />
+              <span
+                className="texture-preview"
+                id="wall-n-texture-preview"
+              ></span>
+            </div>
+            <div className="texture-input-row">
+              <label
+                htmlFor="wall-s-texture-input"
+                data-lang-zh="南墙 (NS)"
+                data-lang-en="South Wall (NS)"
+              >
+                南墙
+              </label>
+              <input type="file" id="wall-s-texture-input" accept="image/*" />
+              <span
+                className="texture-preview"
+                id="wall-s-texture-preview"
+              ></span>
+            </div>
+            <div className="texture-input-row">
+              <label
+                htmlFor="wall-e-texture-input"
+                data-lang-zh="东墙 (EW)"
+                data-lang-en="East Wall (EW)"
+              >
+                东墙
+              </label>
+              <input type="file" id="wall-e-texture-input" accept="image/*" />
+              <span
+                className="texture-preview"
+                id="wall-e-texture-preview"
+              ></span>
+            </div>
+            <div className="texture-input-row">
+              <label
+                htmlFor="wall-w-texture-input"
+                data-lang-zh="西墙 (EW)"
+                data-lang-en="West Wall (EW)"
+              >
+                西墙
+              </label>
+              <input type="file" id="wall-w-texture-input" accept="image/*" />
+              <span
+                className="texture-preview"
+                id="wall-w-texture-preview"
+              ></span>
+            </div>
+            <label
+              htmlFor="floor-scale-slider"
+              data-lang-zh="地面纹理大小"
+              data-lang-en="Floor Texture Size"
+            >
+              地面纹理大小
+            </label>
+            <input
+              type="range"
+              id="floor-scale-slider"
+              min="1"
+              max="10"
+              step="1"
+              value="1"
+            />
+            <label
+              htmlFor="wall-scale-slider"
+              data-lang-zh="墙面纹理大小"
+              data-lang-en="Wall Texture Size"
+            >
+              墙面纹理大小
+            </label>
+            <input
+              type="range"
+              id="wall-scale-slider"
+              min="1"
+              max="10"
+              step="1"
+              value="1"
+            />
+            <button
+              id="reset-textures-btn"
+              className="secondary"
+              data-lang-zh="恢复默认纹理"
+              data-lang-en="Reset Textures"
+            >
+              恢复默认纹理
+            </button>
+          </div>
+          <button
+            id="close-settings-btn"
+            data-lang-zh="关闭"
+            data-lang-en="Close"
+          >
+            关闭
+          </button>
+        </div>
+      </div>
+      <div
+        id="pause-menu-modal"
+        className="modal-overlay"
+        style={{ display: 'none' }}
+      >
+        <div className="modal-content">
+          <h2 data-lang-zh="暂停菜单" data-lang-en="Pause Menu">
+            暂停菜单
+          </h2>
+          <button
+            id="resume-game-btn"
+            data-lang-zh="返回游戏"
+            data-lang-en="Resume Game"
+          >
+            返回游戏
+          </button>
+          <button
+            id="level-select-btn"
+            data-lang-zh="选择关卡"
+            data-lang-en="Select Level"
+          >
+            选择关卡
+          </button>
+          <button
+            id="reset-game-btn"
+            data-lang-zh="重置游戏"
+            data-lang-en="Reset Game"
+          >
+            重置游戏
+          </button>
+          <button
+            id="pause-to-main-menu-btn"
+            data-lang-zh="返回主菜单"
+            data-lang-en="Main Menu"
+          >
+            返回主菜单
+          </button>
+        </div>
+      </div>
+      <div
+        id="level-select-modal"
+        className="modal-overlay"
+        style={{ display: 'none' }}
+      >
+        <div className="modal-content">
+          <h2 data-lang-zh="选择关卡" data-lang-en="Select Level">
+            选择关卡
+          </h2>
+          <div id="level-select-grid" className="level-select-grid"></div>
+          <button
+            id="close-level-select-btn"
+            data-lang-zh="返回"
+            data-lang-en="Back"
+          >
+            返回
+          </button>
+        </div>
+      </div>
+      <div
+        id="free-mode-level-select-modal"
+        className="modal-overlay"
+        style={{ display: 'none' }}
+      >
+        <div className="modal-content">
+          <h2
+            data-lang-zh="自由模式 - 选择关卡"
+            data-lang-en="Free Mode - Select Level"
+          >
+            自由模式 - 选择关卡
+          </h2>
+          <div
+            id="free-mode-level-select-grid"
+            className="level-select-grid"
+          ></div>
+          <button
+            id="free-mode-level-select-back-btn"
+            data-lang-zh="返回主菜单"
+            data-lang-en="Back to Menu"
+          >
+            返回主菜单
+          </button>
+        </div>
+      </div>
+      <div
+        id="editor-modal"
+        className="modal-overlay"
+        style={{ display: 'none' }}
+      >
+        <div className="modal-content">
+          <h2 data-lang-zh="地图编辑器" data-lang-en="Map Editor">
+            地图编辑器
+          </h2>
+          <div id="editor-toolbar">
+            <div className="editor-row">
+              <div id="editor-mode-selector">
+                <button
+                  id="editor-mode-custom-btn"
+                  className="selected"
+                  data-lang-zh="自定义"
+                  data-lang-en="Custom"
+                >
+                  自定义
+                </button>
+                <button
+                  id="editor-mode-builtin-btn"
+                  data-lang-zh="内置"
+                  data-lang-en="Built-in"
+                >
+                  内置
+                </button>
+              </div>
+              <div id="editor-map-selector">
+                <select id="editor-slot-select"></select>
+                <select
+                  id="editor-builtin-level-select"
+                  style={{ display: 'none' }}
+                ></select>
+              </div>
+            </div>
+            <div className="editor-row" id="editor-tools">
+              <button
+                id="tool-wall"
+                data-tool="wall"
+                data-lang-zh="墙"
+                data-lang-en="Wall"
+                className="selected"
+              >
+                墙
+              </button>
+              <button
+                id="tool-path"
+                data-tool="path"
+                data-lang-zh="路"
+                data-lang-en="Path"
+              >
+                路
+              </button>
+              <button
+                id="tool-start"
+                data-tool="start"
+                data-lang-zh="起点"
+                data-lang-en="Start"
+              >
+                起点
+              </button>
+              <button
+                id="tool-goal"
+                data-tool="goal"
+                data-lang-zh="终点"
+                data-lang-en="Goal"
+              >
+                终点
+              </button>
+              <button
+                id="tool-waypoint"
+                data-tool="waypoint"
+                data-lang-zh="路标"
+                data-lang-en="Waypoint"
+              >
+                💎
+              </button>
+              <button
+                id="tool-highlight-floor"
+                data-tool="highlight-floor"
+                data-lang-zh="高亮地板"
+                data-lang-en="Highlight Floor"
+              >
+                ✨
+              </button>
+            </div>
+            <div className="editor-row" id="editor-options">
+              <label>
+                <span data-lang-zh="路标模式" data-lang-en="Waypoint Mode">
+                  路标模式
+                </span>
+                <input type="checkbox" id="editor-waypoint-mode-toggle" />
+              </label>
+              <label>
+                <span data-lang-zh="路标颜色" data-lang-en="Waypoint Color">
+                  路标颜色
+                </span>
+                <input
+                  type="color"
+                  id="editor-waypoint-color"
+                  value="#8A2BE2"
+                />
+              </label>
+            </div>
+          </div>
+          <div id="editor-grid"></div>
+          <p
+            id="editor-message"
+            style={{ color: 'red', minHeight: '1.2em' }}
+          ></p>
+          <button
+            id="editor-save-btn"
+            data-lang-zh="保存地图"
+            data-lang-en="Save Map"
+            data-lang-zh-alt="另存为自定义"
+            data-lang-en-alt="Save as Custom"
+          >
+            保存地图
+          </button>
+          <button
+            id="editor-delete-btn"
+            data-lang-zh="删除此地图"
+            data-lang-en="Delete Map"
+            className="danger"
+          >
+            删除此地图
+          </button>
+          <button
+            id="editor-back-btn"
+            data-lang-zh="返回主菜单"
+            data-lang-en="Back to Menu"
+          >
+            返回主菜单
+          </button>
+        </div>
+      </div>
+      <div
+        id="custom-maps-modal"
+        className="modal-overlay"
+        style={{ display: 'none' }}
+      >
+        <div className="modal-content">
+          <h2 data-lang-zh="自定义地图" data-lang-en="Custom Maps">
+            自定义地图
+          </h2>
+          <div id="custom-maps-grid"></div>
+          <p
+            data-lang-zh="选择一张地图进行操作。"
+            data-lang-en="Select a map to continue."
+          >
+            选择一张地图进行操作。
+          </p>
+          <button
+            id="custom-play-btn"
+            data-lang-zh="游玩"
+            data-lang-en="Play"
+            disabled
+          >
+            游玩
+          </button>
+          <button
+            id="custom-edit-btn"
+            data-lang-zh="编辑"
+            data-lang-en="Edit"
+            disabled
+          >
+            编辑
+          </button>
+          <button
+            id="custom-delete-btn"
+            data-lang-zh="删除"
+            data-lang-en="Delete"
+            disabled
+            className="danger"
+          >
+            删除
+          </button>
+          <button
+            id="custom-back-btn"
+            data-lang-zh="返回主菜单"
+            data-lang-en="Back to Menu"
+          >
+            返回主菜单
+          </button>
+        </div>
+      </div>
+      <div
+        id="big-map-view-modal"
+        className="modal-overlay"
+        style={{ display: 'none' }}
+      >
+        <div className="big-map-flex-container">
+          <div
+            id="map-instructions-panel"
+            className="modal-content"
+            style={{
+              width: 'auto',
+              maxWidth: 350,
+              textAlign: 'left',
+              padding: 30,
+            }}
+          >
+            <h3
+              id="map-instructions-title"
+              data-lang-zh="地图说明"
+              data-lang-en="Map Instructions"
+            >
+              地图说明
+            </h3>
+            <ul>
+              <li>
+                <svg
+                  className="legend-icon"
+                  viewBox="0 0 24 24"
+                  aria-label="您的位置箭头"
+                >
+                  <defs>
+                    <radialGradient
+                      id="legendPlayerGrad"
+                      cx="50%"
+                      cy="50%"
+                      r="50%"
+                    >
+                      <stop offset="0%" stopColor="#ff8080" />
+                      <stop offset="100%" stopColor="#c00000" />
+                    </radialGradient>
+                  </defs>
+                  <path
+                    d="M4 12 L16 4 L16 9 L21 9 L21 15 L16 15 L16 20 Z"
+                    fill="url(#legendPlayerGrad)"
+                    stroke="#006400"
+                    strokeWidth="2"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+                <span
+                  data-lang-zh="您的位置 (红色箭头)"
+                  data-lang-en="Your Position (Red Arrow)"
+                >
+                  您的位置 (红色箭头)
+                </span>
+              </li>
+              <li>
+                <span className="map-legend-swatch swatch-start"></span>
+                <span
+                  data-lang-zh="起点 (蓝色方块)"
+                  data-lang-en="Start Point (Blue Square)"
+                >
+                  起点 (蓝色方块)
+                </span>
+              </li>
+              <li>
+                <span className="map-legend-swatch swatch-goal"></span>
+                <span
+                  data-lang-zh="终点 (红色方块)"
+                  data-lang-en="Goal (Red Square)"
+                >
+                  终点 (红色方块)
+                </span>
+              </li>
+              <li>
+                <span className="map-legend-swatch swatch-waypoint"></span>
+                <span
+                  data-lang-zh="路标 (紫色菱形)"
+                  data-lang-en="Waypoint (Purple Diamond)"
+                >
+                  路标 (紫色菱形)
+                </span>
+              </li>
+              <li>
+                <span className="map-legend-swatch swatch-highlight-floor"></span>
+                <span
+                  data-lang-zh="高亮地板 (黄色方块)"
+                  data-lang-en="Highlight Floor (Yellow Square)"
+                >
+                  高亮地板 (黄色方块)
+                </span>
+              </li>
+            </ul>
+            <p
+              className="instruction-text"
+              data-lang-zh="请仔细规划路线，准备好后，用鼠标左键点击大地图开始驾驶。"
+              data-lang-en="Plan your route carefully. When ready, click the big map to start driving."
+            >
+              请仔细规划路线，准备好后，用鼠标左键点击大地图开始驾驶。
+            </p>
+          </div>
+          <div id="big-map-container-wrapper"></div>
+        </div>
+      </div>
+      <div
+        id="confirm-reset-modal"
+        className="modal-overlay"
+        style={{ display: 'none' }}
+      >
+        <div className="modal-content">
+          <h2 data-lang-zh="确认重置" data-lang-en="Confirm Reset">
+            确认重置
+          </h2>
+          <p
+            data-lang-zh="您确定要重置所有游戏数据吗？此操作无法撤销。"
+            data-lang-en="Are you sure you want to reset all game data? This action cannot be undone."
+          >
+            您确定要重置所有游戏数据吗？此操作无法撤销。
+          </p>
+          <div className="button-row">
+            <button
+              id="confirm-reset-btn"
+              className="danger"
+              data-lang-zh="确认"
+              data-lang-en="Confirm"
+            >
+              确认
+            </button>
+            <button
+              id="cancel-reset-btn"
+              className="secondary"
+              data-lang-zh="取消"
+              data-lang-en="Cancel"
+            >
+              取消
+            </button>
+          </div>
+        </div>
+      </div>
+      <div id="dev-panel">
+        <h4 data-lang-zh="关卡快速切换" data-lang-en="Quick Level Select">
+          关卡快速切换
+        </h4>
+        <select id="level-select"></select>
+      </div>
+    </div>
+  );
+}
